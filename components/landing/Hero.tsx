@@ -1,3 +1,4 @@
+import URLForm from "./URLForm";
 export default function Hero() {
   return (
     <section className="flex min-h-[90vh] flex-col items-center justify-center px-6 text-center">
@@ -17,9 +18,7 @@ export default function Hero() {
         impact, confidence, and implementation effort.
       </p>
 
-      <button className="mt-10 rounded-xl bg-white px-8 py-4 font-semibold text-black transition hover:scale-105">
-        Generate Free Audit
-      </button>
+      <URLForm />
     </section>
   );
 }
