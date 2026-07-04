@@ -10,6 +10,8 @@ export default function URLForm() {
   try {
     setLoading(true);
 
+    console.log("Store URL:", storeUrl);
+
     const result = await generateAudit(storeUrl);
 
     console.log(result);

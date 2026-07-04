@@ -1,4 +1,5 @@
 export async function generateAudit(url: string) {
+
   const response = await fetch("/api/audit", {
     method: "POST",
     headers: {

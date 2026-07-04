@@ -9,7 +9,6 @@ export async function POST(request: NextRequest) {
 
     // Download website HTML
     const html = await fetchWebsite(url);
-    console.log(html.substring(0, 1000));
 
     // Extract homepage information
     const homepage = extractHomepage(html);
