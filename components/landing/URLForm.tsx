@@ -1,10 +1,25 @@
 "use client";
-
+import { generateAudit } from "@/services/audit";
 import { useState } from "react";
 
 export default function URLForm() {
   const [storeUrl, setStoreUrl] = useState("");
   const [competitorUrl, setCompetitorUrl] = useState("");
+  const [loading, setLoading] = useState(false);
+  const handleGenerateAudit = async () => {
+  try {
+    setLoading(true);
+
+    const result = await generateAudit(storeUrl);
+
+    console.log(result);
+
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="mt-10 w-full max-w-2xl space-y-4">
@@ -25,10 +40,12 @@ export default function URLForm() {
       />
 
       <button
-        className="w-full rounded-xl bg-white py-4 font-semibold text-black transition hover:scale-[1.02]"
-      >
-        Analyze Store
-      </button>
+  onClick={handleGenerateAudit}
+  disabled={loading}
+  className="w-full rounded-xl bg-white py-4 font-semibold text-black transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-50"
+>
+  {loading ? "Analyzing..." : "Analyze Store"}
+</button>
     </div>
   );
 }
