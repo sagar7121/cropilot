@@ -7,7 +7,7 @@ export async function fetchWebsite(url: string): Promise<string> {
         "User-Agent":
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
       },
-      timeout: 10000,
+      timeout: 30000,
     });
 
     return response.data;

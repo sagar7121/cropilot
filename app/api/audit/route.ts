@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { fetchWebsite } from "@/lib/scraper/fetchWebsite";
 import { extractHomepage } from "@/lib/scraper/extractHomepage";
 
+import { extractCollections } from "@/lib/scraper/extractCollections";
+
 import { gemini } from "@/lib/ai/gemini";
 import { buildPrompt } from "@/lib/ai/buildPrompt";
 
@@ -19,8 +21,17 @@ export async function POST(request: NextRequest) {
     // Extract homepage evidence
     const homepage = extractHomepage(html);
 
+    const collections = extractCollections(html);
+
+    const siteEvidence = {
+  homepage,
+  collections,
+  products: [],
+  cart: null,
+};
+
     // Build AI prompt
-    const prompt = buildPrompt(homepage);
+    const prompt = buildPrompt(siteEvidence);
 
     // Ask Gemini for a CRO audit
     const response = await gemini.models.generateContent({
@@ -37,6 +48,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
   success: true,
   audit,
+  collections,
 });
 
   } catch (error) {

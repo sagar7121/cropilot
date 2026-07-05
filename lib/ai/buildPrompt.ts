@@ -1,11 +1,6 @@
-export function buildPrompt(homepage: {
-  title: string;
-  metaDescription: string;
-  heroHeading: string;
-  primaryCTA: string;
-  announcementBar: string;
-  navigationLinks: string[];
-}) {
+import { SiteEvidence } from "@/types/audit";
+
+export function buildPrompt(site: SiteEvidence) {
   return `
 You are an expert Ecommerce Conversion Rate Optimization (CRO) consultant.
 
@@ -17,22 +12,22 @@ Do not invent information.
 Homepage Evidence:
 
 Title:
-${homepage.title}
+${site.homepage.title}
 
 Meta Description:
-${homepage.metaDescription}
+${site.homepage.metaDescription}
 
 Hero Heading:
-${homepage.heroHeading}
+${site.homepage.heroHeading}
 
 Primary CTA:
-${homepage.primaryCTA}
+${site.homepage.primaryCTA}
 
 Announcement Bar:
-${homepage.announcementBar}
+${site.homepage.announcementBar}
 
 Navigation Links:
-${homepage.navigationLinks.join(", ")}
+${site.homepage.navigationLinks.join(", ")}
 
 Generate a CRO audit.
 
