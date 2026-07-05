@@ -4,6 +4,17 @@ import { HomepageEvidence } from "@/types/audit";
 export function extractHomepage(html: string): HomepageEvidence {
   const $ = cheerio.load(html);
 
+  const announcementBar =
+  $('[class*="announcement"]').first().text().trim() ||
+  $('[class*="promo"]').first().text().trim() ||
+  $('[class*="banner"]').first().text().trim() ||
+  "";
+
+  const navigationLinks = $("nav a")
+  .map((_, el) => $(el).text().trim())
+  .get()
+  .filter((text) => text.length > 0)
+  .slice(0, 10);
   // Find the best CTA
   const primaryCTA =
     $("button")
@@ -36,6 +47,10 @@ export function extractHomepage(html: string): HomepageEvidence {
 
   primaryCTA,
 
-  trustSignals: [],
+announcementBar,
+
+navigationLinks,
+
+trustSignals: [],
 };
 }

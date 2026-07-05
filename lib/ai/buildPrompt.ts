@@ -3,6 +3,8 @@ export function buildPrompt(homepage: {
   metaDescription: string;
   heroHeading: string;
   primaryCTA: string;
+  announcementBar: string;
+  navigationLinks: string[];
 }) {
   return `
 You are an expert Ecommerce Conversion Rate Optimization (CRO) consultant.
@@ -25,6 +27,12 @@ ${homepage.heroHeading}
 
 Primary CTA:
 ${homepage.primaryCTA}
+
+Announcement Bar:
+${homepage.announcementBar}
+
+Navigation Links:
+${homepage.navigationLinks.join(", ")}
 
 Generate a CRO audit.
 

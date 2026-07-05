@@ -10,6 +10,10 @@ export interface HomepageEvidence {
   metaDescription: string;
   heroHeading: string;
   primaryCTA: string;
+
+  announcementBar: string;
+  navigationLinks: string[];
+
   trustSignals: string[];
 }
 
