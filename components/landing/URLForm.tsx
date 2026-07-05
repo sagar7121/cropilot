@@ -2,7 +2,13 @@
 import { generateAudit } from "@/services/audit";
 import { useState } from "react";
 
-export default function URLForm() {
+interface URLFormProps {
+  onAuditGenerated: (audit: any) => void;
+}
+
+export default function URLForm({
+  onAuditGenerated,
+}: URLFormProps) {
   const [storeUrl, setStoreUrl] = useState("");
   const [competitorUrl, setCompetitorUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -14,7 +20,7 @@ export default function URLForm() {
 
     const result = await generateAudit(storeUrl);
 
-    console.log(result);
+    onAuditGenerated(result.audit);
 
   } catch (error) {
     console.error(error);

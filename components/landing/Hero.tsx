@@ -1,5 +1,10 @@
 import URLForm from "./URLForm";
-export default function Hero() {
+
+interface HeroProps {
+  onAuditGenerated: (audit: any) => void;
+}
+
+export default function Hero({ onAuditGenerated }: HeroProps) {
   return (
     <section className="flex min-h-[90vh] flex-col items-center justify-center px-6 text-center">
       <span className="mb-4 rounded-full border border-gray-700 px-4 py-2 text-sm text-gray-400">
@@ -13,12 +18,12 @@ export default function Hero() {
       </h1>
 
       <p className="mt-6 max-w-2xl text-lg text-gray-400">
-        Analyze your Shopify store using AI and receive
-        evidence-backed CRO recommendations prioritized by
-        impact, confidence, and implementation effort.
+        Analyze your Shopify store using AI and receive evidence-backed CRO
+        recommendations prioritized by impact, confidence, and implementation
+        effort.
       </p>
 
-      <URLForm />
+      <URLForm onAuditGenerated={onAuditGenerated} />
     </section>
   );
 }
