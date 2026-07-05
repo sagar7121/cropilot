@@ -5,6 +5,8 @@ import { extractHomepage } from "@/lib/scraper/extractHomepage";
 
 import { extractCollections } from "@/lib/scraper/extractCollections";
 
+import { extractProducts } from "@/lib/scraper/extractProducts";
+
 import { gemini } from "@/lib/ai/gemini";
 import { buildPrompt } from "@/lib/ai/buildPrompt";
 
@@ -21,12 +23,14 @@ export async function POST(request: NextRequest) {
     // Extract homepage evidence
     const homepage = extractHomepage(html);
 
-    const collections = extractCollections(html);
+const collections = extractCollections(html);
 
-    const siteEvidence = {
+const products = extractProducts(html);
+
+const siteEvidence = {
   homepage,
   collections,
-  products: [],
+  products,
   cart: null,
 };
 

@@ -29,6 +29,11 @@ ${site.homepage.announcementBar}
 Navigation Links:
 ${site.homepage.navigationLinks.join(", ")}
 
+Products (Top 8):
+${site.products
+  .slice(0, 8)
+  .map((product) => `${product.title} | ${product.price} | ${product.primaryCTA}`)
+  .join("\n")}
 Generate a CRO audit.
 
 Return ONLY valid JSON in this format:

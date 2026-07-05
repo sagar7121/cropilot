@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import fs from "fs";
 export async function fetchWebsite(url: string): Promise<string> {
   try {
     const response = await axios.get(url, {
@@ -9,6 +9,8 @@ export async function fetchWebsite(url: string): Promise<string> {
       },
       timeout: 30000,
     });
+
+    fs.writeFileSync("debug-homepage.html", response.data);
 
     return response.data;
   } catch (error) {
