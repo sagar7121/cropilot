@@ -1,10 +1,6 @@
 import URLForm from "./URLForm";
 
-interface HeroProps {
-  onAuditGenerated: (audit: any) => void;
-}
-
-export default function Hero({ onAuditGenerated }: HeroProps) {
+export default function Hero() {
   return (
     <section className="flex min-h-[90vh] flex-col items-center justify-center px-6 text-center">
       <span className="mb-4 rounded-full border border-gray-700 px-4 py-2 text-sm text-gray-400">
@@ -23,7 +19,7 @@ export default function Hero({ onAuditGenerated }: HeroProps) {
         effort.
       </p>
 
-      <URLForm onAuditGenerated={onAuditGenerated} />
+      <URLForm />
     </section>
   );
 }

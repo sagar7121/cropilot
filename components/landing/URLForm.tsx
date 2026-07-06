@@ -1,29 +1,33 @@
 "use client";
-import { generateAudit } from "@/services/audit";
+
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-interface URLFormProps {
-  onAuditGenerated: (audit: any) => void;
-}
+import { generateAudit } from "@/services/audit";
 
-export default function URLForm({
-  onAuditGenerated,
-}: URLFormProps) {
+export default function URLForm() {
   const [storeUrl, setStoreUrl] = useState("");
   const [competitorUrl, setCompetitorUrl] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+
   const handleGenerateAudit = async () => {
   try {
     setLoading(true);
 
-    console.log("Store URL:", storeUrl);
-
     const result = await generateAudit(storeUrl);
 
-    onAuditGenerated(result.audit);
+    console.log("API Response:", result);
+
+    localStorage.setItem("audit", JSON.stringify(result));
+
+    console.log("Saved to localStorage");
+
+    router.push("/dashboard");
 
   } catch (error) {
-    console.error(error);
+    console.error("Generate Audit Error:", error);
   } finally {
     setLoading(false);
   }
@@ -31,6 +35,7 @@ export default function URLForm({
 
   return (
     <div className="mt-10 w-full max-w-2xl space-y-4">
+
       <input
         type="url"
         placeholder="https://your-shopify-store.com"
@@ -48,12 +53,13 @@ export default function URLForm({
       />
 
       <button
-  onClick={handleGenerateAudit}
-  disabled={loading}
-  className="w-full rounded-xl bg-white py-4 font-semibold text-black transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-50"
->
-  {loading ? "Analyzing..." : "Analyze Store"}
-</button>
+        onClick={handleGenerateAudit}
+        disabled={loading}
+        className="w-full rounded-xl bg-white py-4 font-semibold text-black transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        {loading ? "Analyzing..." : "Analyze Store"}
+      </button>
+
     </div>
   );
 }
