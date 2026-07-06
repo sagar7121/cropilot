@@ -6,6 +6,11 @@ import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import KPIGrid from "@/components/dashboard/KPIGrid";
 import SummaryCard from "@/components/dashboard/SummaryCard";
 import OpportunityGrid from "@/components/dashboard/OpportunityGrid";
+import EvidencePanel from "@/components/dashboard/EvidencePanel";
+import ProductPanel from "@/components/dashboard/ProductPanel";
+import CollectionPanel from "@/components/dashboard/CollectionPanel";
+import PriorityPanel from "@/components/dashboard/PriorityPanel";
+import ScoreSection from "@/components/dashboard/ScoreSection";
 
 export default function DashboardPage() {
   const [report, setReport] = useState<any>(null);
@@ -56,16 +61,32 @@ export default function DashboardPage() {
           trustSignals={report.stats.trustSignals}
         />
 
-        <div className="mb-10">
-          <SummaryCard
-            score={report.audit.overallScore}
-            summary={report.audit.summary}
-          />
-        </div>
+        <ScoreSection
+  score={report.audit.overallScore}
+  summary={report.audit.summary}
+/>
 
-        <OpportunityGrid
-          opportunities={report.audit.opportunities}
-        />
+        <PriorityPanel
+  opportunities={report.audit.opportunities}
+/>
+
+        <EvidencePanel
+  homepage={report.evidence.homepage}
+  products={report.stats.products}
+  collections={report.stats.collections}
+/>
+
+<ProductPanel
+  products={report.evidence.products}
+/>
+
+<CollectionPanel
+  collections={report.evidence.collections}
+/>
+
+<OpportunityGrid
+  opportunities={report.audit.opportunities}
+/>
 
       </div>
     </main>
