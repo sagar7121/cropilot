@@ -1,57 +1,92 @@
 import { SiteEvidence } from "@/types/audit";
 
-export function buildPrompt(site: SiteEvidence) {
+export function buildPrompt(evidence: SiteEvidence): string {
   return `
-You are an expert Ecommerce Conversion Rate Optimization (CRO) consultant.
+You are a Senior Shopify Conversion Rate Optimization (CRO) Consultant.
 
-Analyze the following Shopify homepage evidence.
+Your job is to audit a Shopify store using ONLY the provided evidence.
 
-Only use the evidence provided.
-Do not invent information.
+Do NOT invent information.
 
-Homepage Evidence:
+Return ONLY valid JSON.
 
-Title:
-${site.homepage.title}
+--------------------------------------------------
+WEBSITE EVIDENCE
+--------------------------------------------------
 
-Meta Description:
-${site.homepage.metaDescription}
+${JSON.stringify(evidence, null, 2)}
 
-Hero Heading:
-${site.homepage.heroHeading}
+--------------------------------------------------
+TASK
+--------------------------------------------------
 
-Primary CTA:
-${site.homepage.primaryCTA}
+Analyze the homepage and produce a CRO report.
 
-Announcement Bar:
-${site.homepage.announcementBar}
+Evaluate:
 
-Navigation Links:
-${site.homepage.navigationLinks.join(", ")}
+• Visual hierarchy
+• Hero section
+• Value proposition
+• CTA effectiveness
+• Navigation
+• Product presentation
+• Pricing clarity
+• Trust signals
+• Social proof
+• Mobile friendliness (only if evidence exists)
+• Overall purchase journey
 
-Products (Top 8):
-${site.products
-  .slice(0, 8)
-  .map((product) => `${product.title} | ${product.price} | ${product.primaryCTA}`)
-  .join("\n")}
-Generate a CRO audit.
-
-Return ONLY valid JSON in this format:
+--------------------------------------------------
+RETURN JSON ONLY
+--------------------------------------------------
 
 {
   "overallScore": number,
-  "summary": string,
-  "opportunities": [
+
+  "summary": "...",
+
+  "strengths": [
+    "...",
+    "...",
+    "..."
+  ],
+
+  "weaknesses": [
+    "...",
+    "...",
+    "..."
+  ],
+
+  "quickWins": [
+    "...",
+    "...",
+    "..."
+  ],
+
+  "estimatedConversionLift": "5-10%",
+
+  "finalVerdict": "...",
+
+  "opportunities":[
     {
-      "title": string,
-      "category": string,
-      "impact": "High" | "Medium" | "Low",
-      "confidence": number,
-      "effort": "Low" | "Medium" | "High",
-      "evidence": string,
-      "recommendation": string
+      "title":"",
+      "category":"",
+      "impact":"High|Medium|Low",
+      "confidence":95,
+      "effort":"Low|Medium|High",
+      "evidence":"",
+      "recommendation":""
     }
   ]
 }
+
+Rules:
+
+- Return JSON only.
+- No markdown.
+- No explanations.
+- Maximum 5 opportunities.
+- Base every recommendation on the provided evidence.
+- If evidence is missing, explicitly say so instead of making assumptions.
 `;
 }

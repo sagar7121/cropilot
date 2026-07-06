@@ -8,6 +8,9 @@ import { extractProducts } from "@/lib/scraper/extractProducts";
 import { gemini } from "@/lib/ai/gemini";
 import { buildPrompt } from "@/lib/ai/buildPrompt";
 import { parseGeminiResponse } from "@/lib/ai/parseResponse";
+import { extractShopifyData } from "@/lib/scraper/extractShopifyData";
+
+import { validateAudit } from "@/lib/ai/validateAudit";
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,12 +24,26 @@ export async function POST(request: NextRequest) {
     const collections = extractCollections(html);
     const products = extractProducts(html);
 
+    const shopifyData = extractShopifyData(html);
+
+console.log("Shopify Data:", shopifyData);
+
+    console.log("Homepage:", homepage);
+
+console.log("Collections:", collections.length);
+
+console.log("Products:", products);
+
+console.log("Total Products:", products.length);
+
     const siteEvidence = {
-      homepage,
-      collections,
-      products,
-      cart: null,
-    };
+  homepage,
+  collections,
+  products,
+  cart: null,
+  footer: null,
+  newsletter: null,
+};
 
     // Build prompt
     const prompt = buildPrompt(siteEvidence);
@@ -39,12 +56,43 @@ export async function POST(request: NextRequest) {
 
     const aiResponse = response.text ?? "";
 
-    const audit = parseGeminiResponse(aiResponse);
+    const parsedAudit = parseGeminiResponse(aiResponse);
+
+const audit = validateAudit(parsedAudit);
+
+console.log("Validated Audit:", audit);
+    console.log("Parsed Audit:", audit);
 
     return NextResponse.json({
   success: true,
 
   audit,
+
+  stats: {
+    products: products.length,
+    collections: collections.length,
+    opportunities: audit.opportunities.length,
+    navigationLinks: homepage.navigationLinks.length,
+    trustSignals: homepage.trustSignals.length,
+  },
+
+  evidence: {
+    homepage,
+    collections,
+    products,
+  },
+});
+return NextResponse.json({
+  success: true,
+
+  version: "1.0.0",
+
+  audit,
+
+  ai: {
+    model: "gemini-2.5-flash",
+    generatedAt: new Date().toISOString(),
+  },
 
   stats: {
     products: products.length,
