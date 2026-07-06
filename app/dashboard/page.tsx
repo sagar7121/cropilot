@@ -27,7 +27,6 @@ export default function DashboardPage() {
     if (stored) {
       const parsed = JSON.parse(stored);
 
-      console.log("Dashboard Report:", parsed);
 
       setReport(parsed);
     }

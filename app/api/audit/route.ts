@@ -25,16 +25,7 @@ export async function POST(request: NextRequest) {
     const products = extractProducts(html);
 
     const shopifyData = extractShopifyData(html);
-
-console.log("Shopify Data:", shopifyData);
-
-    console.log("Homepage:", homepage);
-
-console.log("Collections:", collections.length);
-
-console.log("Products:", products);
-
-console.log("Total Products:", products.length);
+    
 
     const siteEvidence = {
   homepage,
